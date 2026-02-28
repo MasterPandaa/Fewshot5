@@ -1,5 +1,6 @@
-import sys
 import random
+import sys
+
 import pygame
 
 # --- Config ---
@@ -52,7 +53,9 @@ class Paddle:
         error = target_y - center
         desired_vel = max(-AI_MAX_SPEED, min(AI_MAX_SPEED, error))
         # smooth toward desired velocity
-        self.vel_y = (1 - AI_REACTION_SMOOTHING) * self.vel_y + AI_REACTION_SMOOTHING * desired_vel
+        self.vel_y = (
+            1 - AI_REACTION_SMOOTHING
+        ) * self.vel_y + AI_REACTION_SMOOTHING * desired_vel
         self.rect.y += int(self.vel_y * dt)
         self.clamp_to_bounds()
 
@@ -96,7 +99,9 @@ class Ball:
                     self.rect.right = paddle.rect.left
 
                 # Reflect X and add a bit of spin based on where we hit the paddle
-                offset = (self.rect.centery - paddle.rect.centery) / (paddle.rect.height / 2)
+                offset = (self.rect.centery - paddle.rect.centery) / (
+                    paddle.rect.height / 2
+                )
                 offset = max(-1.0, min(1.0, offset))
 
                 self.vel.x *= -1
@@ -147,8 +152,20 @@ def main():
     small_font = pygame.font.SysFont("Consolas", 20)
 
     # Create objects
-    player = Paddle(PLAYER_X, SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT, PLAYER_SPEED)
-    ai = Paddle(AI_X, SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2, PADDLE_WIDTH, PADDLE_HEIGHT, AI_MAX_SPEED)
+    player = Paddle(
+        PLAYER_X,
+        SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2,
+        PADDLE_WIDTH,
+        PADDLE_HEIGHT,
+        PLAYER_SPEED,
+    )
+    ai = Paddle(
+        AI_X,
+        SCREEN_HEIGHT // 2 - PADDLE_HEIGHT // 2,
+        PADDLE_WIDTH,
+        PADDLE_HEIGHT,
+        AI_MAX_SPEED,
+    )
     ball = Ball()
 
     player_score = 0
@@ -199,7 +216,9 @@ def main():
             # Simple win banner for a short moment
             screen.fill(BLACK)
             msg = "You Win!" if player_score > ai_score else "AI Wins!"
-            render_text(screen, msg, (SCREEN_WIDTH // 2 - 80, SCREEN_HEIGHT // 2 - 20), font)
+            render_text(
+                screen, msg, (SCREEN_WIDTH // 2 - 80, SCREEN_HEIGHT // 2 - 20), font
+            )
             pygame.display.flip()
             pygame.time.delay(1800)
             player_score, ai_score = 0, 0
